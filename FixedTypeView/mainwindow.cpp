@@ -69,6 +69,27 @@ void MainWindow::on_pushButton_clicked() {
         qDebug() << "d_value=" << d_value;
         unsigned int ap_value = hls_helper::double_to_hls_apfixed(d_value, W, I);
         QString result = QString::number(ap_value, 16);
+        result = result.toUpper();
+        qDebug() << "result=" << result;
+        int length = result.length();
+        qDebug() << "length=" << length;
+
+        int hex_width;
+        if (W % 4 == 0) {
+            hex_width = W / 4;
+        } else {
+            hex_width = W / 4 + 1;
+        }
+
+        if (length < hex_width) {
+            int padding_length = hex_width - length;
+            int i = 0;
+            while (i < padding_length) {
+                result.push_front('0');
+                i++;
+            }
+        }
+        qDebug() << "result=" << result;
         ui->label_result->setText(result);
     }
 }
